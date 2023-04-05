@@ -5,17 +5,23 @@ function shuffleArray(array) {
   }
 }
 
-function generateCards(cards) {
-  cards.forEach((card) => {
+function generateCards(event, cards, numCards) {
+  console.log(event.target);
+  points = 0;
+  pointsEl.textContent = `Points: ${points}`;
+  const newCards = cards.slice(0, numCards);
+  const cardsToPlay = [...newCards, ...newCards];
+  shuffleArray(cardsToPlay);
+  cardsToPlay.forEach((card) => {
     const img = new Image();
     img.src = card.img;
   });
 
   board.innerHTML = `
-      ${cards
+      ${cardsToPlay
         .map((card) => {
           return `
-          <div class="card">
+          <div class="card ${event.target.classList}">
             <div class="front"></div>
             <div class="back"><img src="${card.img}"/></div>
           </div>
@@ -23,10 +29,12 @@ function generateCards(cards) {
         })
         .join("")}
       `;
+  document.querySelectorAll(".card").forEach((card) => {
+    card.addEventListener("click", flipCard);
+  });
 }
 
 function checkMatch(cards) {
-  console.log(cards);
   const flippedCardsEl = document.querySelectorAll(".flipped");
   isChecking = true;
   if (cards[0] === cards[1]) {
@@ -43,7 +51,9 @@ function checkMatch(cards) {
   } else {
     setTimeout(() => {
       flippedCards.splice(0, 2);
-      flippedCardsEl.forEach((flippedCard) => flippedCard.classList.remove("flipped"));
+      flippedCardsEl.forEach((flippedCard) =>
+        flippedCard.classList.remove("flipped")
+      );
       isChecking = false;
     }, 2000);
   }
@@ -77,7 +87,6 @@ const cards = [
   { img: "../img/roslina.png" },
   { img: "../img/drzewo.png" },
 ];
-const cardsToPlay = [...cards, ...cards];
 const flippedCards = [];
 let points = 0;
 let moves = 0;
@@ -86,10 +95,21 @@ const pointsEl = document.querySelector("p");
 const cardsEl = document.querySelectorAll(".card");
 const board = document.querySelector(".memory-board");
 let isChecking = false;
-shuffleArray(cardsToPlay);
+const easyBtn = document.querySelector(".easy");
+const mediumBtn = document.querySelector(".medium");
+const hardBtn = document.querySelector(".hard");
 
-generateCards(cardsToPlay);
-
-document.querySelectorAll(".card").forEach((card) => {
-  card.addEventListener("click", flipCard);
+easyBtn.addEventListener("click", (event) => {
+  generateCards(event, cards, 4);
 });
+
+mediumBtn.addEventListener("click", (event) => {
+  generateCards(event, cards, 8);
+});
+
+hardBtn.addEventListener("click", (event) => {
+  generateCards(event, cards, 10);
+});
+// shuffleArray(cardsToPlay);
+
+// generateCards(cards, 4);

@@ -77,20 +77,11 @@ select {
 }
 
 .wrapper {
-  width: 1980;
-  margin: 20px auto;
+  width: 1200px;
+  margin: 0 auto;
 }
 
 /* Memory game */
-
-.memory-board {
-  display: flex;
-  width: 1200px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
 
 .flipped {
   background-color: #efe;
@@ -99,7 +90,7 @@ select {
 .card {
   position: relative;
   width: 200px;
-  height: 200px;
+  height: 250px;
   margin: 0;
   background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
   transform-style: preserve-3d;
@@ -127,4 +118,8 @@ select {
   justify-content: center;
   background-color: #fff;
   align-items: center;
+}
+
+.hidden {
+  visibility: hidden;
 }
